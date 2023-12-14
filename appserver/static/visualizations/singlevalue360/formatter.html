@@ -1,0 +1,29 @@
+<form class="splunk-formatter-section" section-label="General">
+    <splunk-control-group label="Grouping">
+        <splunk-select name="{{VIZ_NAMESPACE}}.grouping" value="true">
+            <option value="true">Enabled</option>
+            <option value="true">Disabled</option>
+        </splunk-select>
+    </splunk-control-group>
+    <splunk-control-group label="Group Position">
+        <splunk-select name="{{VIZ_NAMESPACE}}.groupPosition" value="middle">
+            <option value="start">Start</option>
+            <option value="middle">Middle</option>
+            <option value="end">End</option>
+        </splunk-select>
+    </splunk-control-group>
+</form>
+<form class="splunk-formatter-section" section-label="Setup">
+    <splunk-control-group label="Up Trend Color">
+        <splunk-select name="{{VIZ_NAMESPACE}}.upcolor" value="green">
+            <option value="green">Green</option>
+            <option value="red">Red</option>
+        </splunk-select>
+    </splunk-control-group>
+    <splunk-control-group label="Down Trend Color">
+        <splunk-select name="{{VIZ_NAMESPACE}}.downcolor" value="red">
+            <option value="green">Green</option>
+            <option value="red">Red</option>
+        </splunk-select>
+    </splunk-control-group>
+</form>

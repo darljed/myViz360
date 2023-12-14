@@ -1,0 +1,69 @@
+/*
+ * CSS rules for visualization.
+ * Class namespacing is good practice.
+ */
+:root {
+    --radius-xl: 16px;
+    --radius-sm: 10px;
+}
+
+/* edit mode formatting fixes  */
+.dashboard.edit-mode .dashboard-panel {
+    display: block !important;
+}
+
+
+/* START of cc-mini-sv */
+.cc-mini-sv {
+    display: flex;
+    margin: 20px 20px 0 20px;
+    flex-wrap: wrap;
+}
+
+.cc-mini-sv-item {
+    display: flex;
+    padding: 4px 8px;
+    border: 1px solid #E8EAED;
+    border-radius: var(--radius-xl);
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.cc-mini-sv-item-label {
+    padding-right: 10px;
+}
+
+.cc-mini-sv-item-value {
+    padding-left: 10px;
+}
+
+.cc-mini-sv-item-value i {
+    display: inline-block;
+    font-size: 14pt;
+    margin-left: 2px;
+}
+
+div.cc-mini-sv-item-value.down i {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(rotate(45deg));
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+div.cc-mini-sv-item-value.green i{
+    color: #1F7C52
+}
+
+div.cc-mini-sv-item-value.up i {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(rotate(-45deg));
+    -o-transform: rotate(20deg);
+    transform: rotate(-45deg);
+}
+
+div.cc-mini-sv-item-value.red i{
+    color: #D7482B
+}
+/* END of cc-mini-sv */

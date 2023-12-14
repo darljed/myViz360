@@ -1,0 +1,91 @@
+/*
+ * CSS rules for visualization.
+ * Class namespacing is good practice.
+ */
+:root {
+    --radius-xl: 16px;
+    --radius-sm: 10px;
+    --darkfont: #000;
+    --lightfont: #fff;
+}
+
+/* edit mode formatting fixes  */
+.dashboard.edit-mode .dashboard-panel {
+    display: block !important;
+}
+
+
+/* START of cc-single-value */
+
+.cc-single-value {
+    display: flex;
+    background: #F3F4F6;
+    padding: 10px 0 10px 0px;
+    /* border-radius: var(--radius-sm); */
+    /* border: 1px solid #E8EAED; */
+    margin-top: 20px;
+}
+
+.cc-single-value-item {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    flex-grow: 1;
+    border-radius: var(--radius-sm);
+}
+
+div.cc-single-value-item-icon i {
+    display: inline-block;
+    font-size: 14pt;
+}
+
+div.cc-single-value-item-icon.down i {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(rotate(45deg));
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+div.cc-single-value-item-icon.green i{
+    color: #13412F
+}
+
+div.cc-single-value-item-icon.up i {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(rotate(-45deg));
+    -o-transform: rotate(20deg);
+    transform: rotate(-45deg);
+}
+
+div.cc-single-value-item-icon.red i{
+    color: #7C2F20
+}
+
+.cc-single-value-item-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    background: #ededed;
+    border: 1px solid #ced2cf;
+    font-size: 12pt;
+}
+
+.cc-single-value-item-icon.green {
+    background: #EFFAF4;
+    border: 1px solid #CDEFD9;
+}
+
+.cc-single-value-item-icon.red {
+    background: #FEF4F2;
+    border: 1px solid #FDE7E3;
+}
+
+h2.cc-single-value-item-value {
+    font-size: 16pt;
+    font-weight: 500;
+}
+/* END of cc-single-value */
