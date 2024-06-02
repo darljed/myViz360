@@ -66,4 +66,8 @@ div.cc-mini-sv-item-value.up i {
 div.cc-mini-sv-item-value.red i{
     color: #D7482B
 }
+
+.cc-mini-sv-item {
+    cursor: pointer;
+}
 /* END of cc-mini-sv */

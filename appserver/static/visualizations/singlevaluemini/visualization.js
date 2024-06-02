@@ -102,7 +102,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	            let items =  ``
 	            data.rows.forEach(element => {
-	              items+=`<div class="cc-mini-sv-item">
+	              items+=`<div class="cc-mini-sv-item" data-label="${element[0]}" data-value="${element[1]}">
 	              <div class="cc-mini-sv-item-label">${element[0]}</div>
 	              <span>|</span>
 	              <div class="cc-mini-sv-item-value ${element[2]} ${element[2] == 'up' ? this.style.upcolor : ( element[2] == 'down' ? this.style.downcolor : '')}">${element[1]} <i class="icon icon-arrow-right"/>
@@ -115,6 +115,20 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	          </div>`)
 
 
+	          const self = this
+	          this.$el.on('click','.cc-mini-sv-item',function(e){
+	            console.log(data)
+	            const label = $(this).data('label')
+	            const value = $(this).data('value')
+	            self.drilldown({
+	                'action': SplunkVisualizationBase.FIELD_VALUE_DRILLDOWN,
+	                'data':{
+	                    'label':label,
+	                    'value':value,
+	                    'value2':label
+	                }
+	            }, e);
+	          })
 
 	        },
 

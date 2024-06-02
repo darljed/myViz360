@@ -164,6 +164,25 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	                this.$el.closest('.panel-element-row').css('flex',1)
 	            }
 
+
+	            // handlers 
+	            const self = this
+	            this.$el.on('click','.cc-single-value-item',function(e){
+	                console.log('clicked!')
+	                console.log(data)
+
+
+	                self.drilldown({
+	                    'action': SplunkVisualizationBase.FIELD_VALUE_DRILLDOWN,
+	                    'data':{
+	                        'label':data.label,
+	                        'value':data.value,
+	                        'value2':data.label,
+	                        'perc': data.diff
+	                    }
+	                }, e);
+	            })
+
 	        },
 
 	        // Search data params
