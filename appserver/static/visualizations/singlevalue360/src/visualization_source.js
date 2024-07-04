@@ -29,6 +29,20 @@ define([
             this.options = {
                 theme: vizUtils.getCurrentTheme(),
             }
+
+            this.v2_icons = {
+                green_check: 'v2_green_check.svg',
+                yellow_clock: 'v2_yellow_clock.svg',
+                red_cross: 'v2_red_cross.svg',
+                blue_lightning: `v2_blue_lightning.svg`,
+                green_lightning: 'v2_green_lightning.svg',
+                red_lightning: 'v2_red_lightning.svg',
+                yellow_lightning: 'v2_yellow_lightning.svg'
+            }
+
+            this.getv2icon = function(icon) {
+                return `/static/app/myViz360/img/${icon}`;
+            }
             
             // Initialization logic goes here
         },
@@ -74,27 +88,57 @@ define([
                 groupPosition: config[this.getPropertyNamespaceInfo().propertyNamespace + 'groupPosition'] || 'middle',
                 upcolor: config[this.getPropertyNamespaceInfo().propertyNamespace + 'upcolor'] || 'green',
                 downcolor: config[this.getPropertyNamespaceInfo().propertyNamespace + 'downcolor'] || 'red',
-                fontColor: vizUtils.getCurrentTheme() == 'dark' ? 'color: var(--darkfont);' : ''
+                fontColor: vizUtils.getCurrentTheme() == 'dark' ? 'color: var(--darkfont);' : '',
+                versionStyle: config[this.getPropertyNamespaceInfo().propertyNamespace + 'versionStyle'] || 1,
+                iconSet: config[this.getPropertyNamespaceInfo().propertyNamespace + 'iconSet'] || 'green_check',
             }
 
-            let margin1 = this.style.groupPosition == 'start' ? 'margin-left: 10px;border-top-left-radius: 10px; border-bottom-left-radius: 10px;' : (this.style.groupPosition == 'end' ? 'margin-right: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px;' : '')
-            let margin2 = this.style.groupPosition == 'start' ? 'margin-left: 10px;' : (this.style.groupPosition == 'end' ? 'margin-right: 10px;margin-left: 10px;' : 'margin-left: 10px;')
-            // if(margin == false)
+            let margin1,margin2;
+            if(this.style.versionStyle == 1){
+                margin1 = this.style.groupPosition == 'start' ? 'margin-left: 10px;border-top-left-radius: 10px; border-bottom-left-radius: 10px;' : (this.style.groupPosition == 'end' ? 'margin-right: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px;' : '')
+                margin2 = this.style.groupPosition == 'start' ? 'margin-left: 10px;' : (this.style.groupPosition == 'end' ? 'margin-right: 10px;margin-left: 10px;' : 'margin-left: 10px;')
+            }
+            else if(this.style.versionStyle == 2){
+                margin1 = this.style.groupPosition == 'start' ? 'margin-left: 10px;' : (this.style.groupPosition == 'end' ? 'margin-left: 5px; ' : 'margin-left: 5px; ')
+                margin2 = this.style.groupPosition == 'start' ? 'margin-right: 5px;' : (this.style.groupPosition == 'end' ? 'margin-right: 10px;' : 'margin-right: 5px;')
+            }
 
 
 
             if(data != {}){
                 this.$el.html('')
 
-                const trend = data.diff!=null ? `<div class="cc-single-value-item-icon ${data.trend} ${data.trend == 'up' ? this.style.upcolor : ( data.trend == 'down' ? this.style.downcolor : '')}">${data.diff} <i class="icon icon-arrow-right"></i></div>` : '';
-                
-                this.$el.append(`<div class="cc-single-value"  style="${margin1};${'color: var(--darkfont);'}">
-                    <div class="cc-single-value-item" style="${margin2}">
-                    <span class="cc-single-value-item-title">${data.label}</span>
-                    ${trend}
-                    <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
-                    </div>
-                </div>`)
+                let html = ``
+                if(this.style.versionStyle == 1){
+                    const trend = data.diff!=null ? `<div class="cc-single-value-item-icon ${data.trend} ${data.trend == 'up' ? this.style.upcolor : ( data.trend == 'down' ? this.style.downcolor : '')}">${data.diff} <i class="icon icon-arrow-right"></i></div>` : '';
+                    html = `<div class="cc-single-value"  style="${margin1};${'color: var(--darkfont);'}">
+                        <div class="cc-single-value-item" style="${margin2}">
+                        <span class="cc-single-value-item-title">${data.label}</span>
+                        ${trend}
+                        <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
+                        </div>
+                    </div>`
+                }
+                else if(this.style.versionStyle == 2){
+                    html = `
+                    <div class="cc-single-value ${this.style.groupPosition == 'start' ? 'cc-single-value-start-v2' : (this.style.groupPosition == 'end' ? 'cc-single-value-end-v2 ' : '')}"  style="${'color: var(--darkfont);'}">
+                        <div class="cc-panel-single-value-v2" style="${margin1};${margin2};">
+                            <div class="cc-panel-single-value-v2-icon">
+                                <img src="${this.getv2icon(this.v2_icons[this.style.iconSet])}" />
+                            </div>
+                        
+                            <div class="cc-panel-single-value-v2-labels">
+                                <div class="cc-single-value-item">
+                                <span class="cc-single-value-item-title">${data.label}</span>
+                                <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                }
+
+
+                this.$el.append(html)
             }
             else{
                 this.$el.html('')
