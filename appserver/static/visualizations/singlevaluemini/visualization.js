@@ -98,19 +98,24 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 	            this.style ={
 	                upcolor: config[this.getPropertyNamespaceInfo().propertyNamespace + 'upcolor'] || 'green',
 	                downcolor: config[this.getPropertyNamespaceInfo().propertyNamespace + 'downcolor'] || 'red',
+	                versionStyle: config[this.getPropertyNamespaceInfo().propertyNamespace + 'versionStyle'] || 1,
+	                columnCount: config[this.getPropertyNamespaceInfo().propertyNamespace + 'columnCount'] || 4,
 	            }
 
 	            let items =  ``
 	            data.rows.forEach(element => {
-	              items+=`<div class="cc-mini-sv-item" data-label="${element[0]}" data-value="${element[1]}">
+	              items+=`<div class="cc-mini-sv-item" data-label="${element[0]}"  data-value="${element[1]}"
+	              ${this.style.versionStyle == 2 ? `style="width: calc(${100/this.style.columnCount}% - 28px);"` : ''}
+	              >
 	              <div class="cc-mini-sv-item-label">${element[0]}</div>
-	              <span>|</span>
-	              <div class="cc-mini-sv-item-value ${element[2]} ${element[2] == 'up' ? this.style.upcolor : ( element[2] == 'down' ? this.style.downcolor : '')}">${element[1]} <i class="icon icon-arrow-right"/>
+	              <div>
+	                <div class="cc-mini-sv-item-value ${element[2]} ${element[2] == 'up' ? this.style.upcolor : ( element[2] == 'down' ? this.style.downcolor : '')}"><span style="font-size: small; color: #cdcdcd;">|</span> ${element[1]} <i class="icon icon-arrow-right"/>
+	                </div>
 	              </div>
 	            </div>`
 	            });
 
-	            this.$el.append(`<div class="cc-mini-sv">
+	            this.$el.append(`<div class="cc-mini-sv ${this.style.versionStyle == 2 ? 'cc-mini-sv-v2' : ''}" >
 	            ${items}
 	          </div>`)
 
