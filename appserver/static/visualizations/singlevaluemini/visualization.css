@@ -70,4 +70,32 @@ div.cc-mini-sv-item-value.red i{
 .cc-mini-sv-item {
     cursor: pointer;
 }
+
+/* v2  */
+
+.cc-mini-sv.cc-mini-sv-v2 .cc-mini-sv-item {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 0;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff
+}
+
+.cc-mini-sv.cc-mini-sv-v2 .cc-mini-sv-item .cc-mini-sv-item-label {
+    max-width: 65%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cc-mini-sv.cc-mini-sv-v2 {
+    margin: 0;
+    background: #F3F4F6;
+    border-radius: 9px;
+    padding-bottom: 5px;
+}
+
 /* END of cc-mini-sv */

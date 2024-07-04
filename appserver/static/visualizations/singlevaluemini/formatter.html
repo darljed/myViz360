@@ -1,16 +1,12 @@
 <form class="splunk-formatter-section" section-label="General">
-    <splunk-control-group label="Grouping">
-        <splunk-select name="{{VIZ_NAMESPACE}}.grouping" value="true">
-            <option value="true">Enabled</option>
-            <option value="true">Disabled</option>
-        </splunk-select>
+    <splunk-control-group label="Style">
+        <splunk-radio-input name="{{VIZ_NAMESPACE}}.versionStyle" value="1">
+            <option value="1">Version 1</option>
+            <option value="2">Version 2</option>
+        </splunk-radio-input>
     </splunk-control-group>
-    <splunk-control-group label="Group Position">
-        <splunk-select name="{{VIZ_NAMESPACE}}.groupPosition" value="middle">
-            <option value="start">Start</option>
-            <option value="middle">Middle</option>
-            <option value="end">End</option>
-        </splunk-select>
+    <splunk-control-group label="Number of columns" help="Count of columns per row">
+        <splunk-text-input name="{{VIZ_NAMESPACE}}.columnCount" value="4"></splunk-text-input>
     </splunk-control-group>
 </form>
 <form class="splunk-formatter-section" section-label="Setup">
