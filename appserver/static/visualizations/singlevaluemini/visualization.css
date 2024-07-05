@@ -89,6 +89,7 @@ div.cc-mini-sv-item-value.red i{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    flex: 1;
 }
 
 .cc-mini-sv.cc-mini-sv-v2 {
