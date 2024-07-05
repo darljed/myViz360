@@ -104,10 +104,10 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils"], function(
 
 	            let items =  ``
 	            data.rows.forEach(element => {
-	              items+=`<div class="cc-mini-sv-item" data-label="${element[0]}"  data-value="${element[1]}"
+	              items+=`<div class="cc-mini-sv-item" title="${element[0]}" data-label="${element[0]}"  data-value="${element[1]}"
 	              ${this.style.versionStyle == 2 ? `style="width: calc(${100/this.style.columnCount}% - 28px);"` : ''}
 	              >
-	              <div class="cc-mini-sv-item-label">${element[0]}</div>
+	              <div class="cc-mini-sv-item-label" >${element[0]}</div>
 	              <div>
 	                <div class="cc-mini-sv-item-value ${element[2]} ${element[2] == 'up' ? this.style.upcolor : ( element[2] == 'down' ? this.style.downcolor : '')}"><span style="font-size: small; color: #cdcdcd;">|</span> ${element[1]} <i class="icon icon-arrow-right"/>
 	                </div>
