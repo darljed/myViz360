@@ -11,6 +11,7 @@ display.visualizations.custom.myViz360.singlevalue360.groupPosition = <string>
 display.visualizations.custom.myViz360.singlevalue360.upcolor = <string>
 display.visualizations.custom.myViz360.singlevalue360.downcolor = <string>
 display.visualizations.custom.myViz360.singlevalue360.iconSet = <string>
+display.visualizations.custom.myViz360.singlevalue360.colorBar = <string>
 
 display.visualizations.custom.myViz360.singlevaluemini.versionStyle = <integer>
 display.visualizations.custom.myViz360.singlevaluemini.columnCount = <integer>
