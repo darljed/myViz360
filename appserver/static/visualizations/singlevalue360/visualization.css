@@ -125,4 +125,10 @@ h2.cc-single-value-item-value {
     font-size: 24px;
 }
 
+.cc-single-value-v2-colorbar {
+    width: 5px;
+    height: 70px;
+    border-radius: 16px;
+}
+
 /* END of cc-single-value */

@@ -33,7 +33,8 @@
         </splunk-select>
     </splunk-control-group>
     <splunk-control-group label="Icon Set" help="Applicable only for version 2 style">
-        <splunk-select name="{{VIZ_NAMESPACE}}.iconSet" value="v2_green_check.svg">
+        <splunk-select name="{{VIZ_NAMESPACE}}.iconSet" value="green_check">
+            <option value="color_bar">Color Bar</option>
             <option value="green_check">Green Check</option>
             <option value="yellow_clock">Yellow Clock</option>
             <option value="red_cross">Red Cross</option>
@@ -42,5 +43,9 @@
             <option value="red_lightning">Red Lightning</option>
             <option value="yellow_lightning">Yellow Lightning</option>
         </splunk-select>
+    </splunk-control-group>
+    <splunk-control-group label="Color Bar" help="Applicable only for version 2 style, that uses color bar.">
+        <splunk-color-picker name="{{VIZ_NAMESPACE}}.colorBar" value="#000000">
+        </splunk-color-picker>
     </splunk-control-group>
 </form>

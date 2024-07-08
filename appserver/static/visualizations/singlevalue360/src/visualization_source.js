@@ -91,6 +91,7 @@ define([
                 fontColor: vizUtils.getCurrentTheme() == 'dark' ? 'color: var(--darkfont);' : '',
                 versionStyle: config[this.getPropertyNamespaceInfo().propertyNamespace + 'versionStyle'] || 1,
                 iconSet: config[this.getPropertyNamespaceInfo().propertyNamespace + 'iconSet'] || 'green_check',
+                colorBar: config[this.getPropertyNamespaceInfo().propertyNamespace + 'colorBar'] || '#000000',
             }
 
             let margin1,margin2;
@@ -120,11 +121,12 @@ define([
                     </div>`
                 }
                 else if(this.style.versionStyle == 2){
+                    console.log('style',this.style)
                     html = `
                     <div class="cc-single-value ${this.style.groupPosition == 'start' ? 'cc-single-value-start-v2' : (this.style.groupPosition == 'end' ? 'cc-single-value-end-v2 ' : '')}"  style="${'color: var(--darkfont);'}">
                         <div class="cc-panel-single-value-v2" style="${margin1};${margin2};">
                             <div class="cc-panel-single-value-v2-icon">
-                                <img src="${this.getv2icon(this.v2_icons[this.style.iconSet])}" />
+                                ${ this.style.iconSet == 'color_bar' ? `<div class="cc-single-value-v2-colorbar" style="background-color: ${this.style.colorBar};"></div>` : `<img src="${this.getv2icon(this.v2_icons[this.style.iconSet])}" />`}
                             </div>
                         
                             <div class="cc-panel-single-value-v2-labels">
