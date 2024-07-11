@@ -42,3 +42,7 @@ export = system
 
 [visualizations/singlevaluemini]
 export = system
+
+[visualizations/lessonscardview]
+export = system
+
