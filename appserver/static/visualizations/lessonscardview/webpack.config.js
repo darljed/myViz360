@@ -14,6 +14,8 @@ module.exports = {
     },
     externals: [
         'api/SplunkVisualizationBase',
-        'api/SplunkVisualizationUtils'
+        'api/SplunkVisualizationUtils',
+        "splunkjs/mvc/dropdownview",
+        "splunkjs/mvc/searchmanager"
     ]
 };
