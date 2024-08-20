@@ -78,6 +78,8 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	            this.url_domain = 'https://tutorlim.teachworks.com'
 	            this.id = this.generateUniqueId()
 	            this.status_input_id = this.id + '_status'
+	            this.per_page = 2
+	            this.page = 0
 	            console.log(this.$el,this._config,this)
 	            this.updateTimes = 0
 	            // //// console.log(this.$el)
@@ -154,17 +156,32 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	                r.forEach((value,i)=>{
 	                    row[data.fields[i].name]=value
 	                })
-	                row['input_id'] = `${this.status_input_id}_${i}`
+	                row['input_id'] = row.key ? row.key : `${this.status_input_id}_${i}`
 	                return row
 	            })
-	            return newData
+	            
+	            let content_count = 0
+	            let newPaginatedData = []
+	            let pages = []
+	            newData.map((el)=>{
+	              content_count+=1
+
+	              pages.push(el)
+	              if(content_count == this.per_page){
+	                newPaginatedData.push(pages)
+	                content_count = 0
+	                pages = []
+	              }
+	            })
+	            return newPaginatedData
 	        },
 	  
 	        // Implement updateView to render a visualization.
 	        //  'data' will be the data object returned from formatData or from the search
 	        //  'config' will be the configuration property object
-	        updateView: function(data, config) {
-	            console.log(data)
+	        updateView: function(paginatedData , config) {
+	            console.log(paginatedData)
+	            let data = paginatedData[0]
 	            // Draw something here
 	            const self = this
 	            console.log('editmode',config[this.getPropertyNamespaceInfo().propertyNamespace + 'editMode'])

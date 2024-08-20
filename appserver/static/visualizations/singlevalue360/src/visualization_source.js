@@ -57,6 +57,7 @@ define([
                 const val = data.rows[data.rows.length - 1][1]
                 const comp = data.rows.length > 1 ? data.rows[data.rows.length - 2][1] : null;
                 const diff = val - comp
+                const perc = (comp/val) *  100
                 const trend = diff!=null ? diff > 0 ? "up" : (diff == 0 ? "side" : "down") : null ;
 
 
@@ -66,6 +67,7 @@ define([
                     label: data.fields[1].name,
                     value: val,
                     diff: diff,
+                    perc: perc,
                     trend: trend,
                     fields: data.fields,
                     rows: data.rows
@@ -92,6 +94,10 @@ define([
                 versionStyle: config[this.getPropertyNamespaceInfo().propertyNamespace + 'versionStyle'] || 1,
                 iconSet: config[this.getPropertyNamespaceInfo().propertyNamespace + 'iconSet'] || 'green_check',
                 colorBar: config[this.getPropertyNamespaceInfo().propertyNamespace + 'colorBar'] || '#000000',
+                unit: config[this.getPropertyNamespaceInfo().propertyNamespace + 'unit'] || '',
+                usetrend: config[this.getPropertyNamespaceInfo().propertyNamespace + 'usetrend'] || 'True',
+                caption: config[this.getPropertyNamespaceInfo().propertyNamespace + 'caption'] || '',
+                trendtype: config[this.getPropertyNamespaceInfo().propertyNamespace + 'trendtype'] || 'Difference',
             }
 
             let margin1,margin2;
@@ -111,12 +117,17 @@ define([
 
                 let html = ``
                 if(this.style.versionStyle == 1){
-                    const trend = data.diff!=null ? `<div class="cc-single-value-item-icon ${data.trend} ${data.trend == 'up' ? this.style.upcolor : ( data.trend == 'down' ? this.style.downcolor : '')}">${data.diff} <i class="icon icon-arrow-right"></i></div>` : '';
+                    const trend = data.diff!=null ? `<div class="cc-trend-holder ${this.style.caption ? 'borders' : ''}">
+                        <div class="cc-single-value-item-icon ${data.trend} ${data.trend == 'up' ? this.style.upcolor : ( data.trend == 'down' ? this.style.downcolor : '')}">${ this.style.trendtype == "Difference" ? data.diff : `${data.perc.toFixed(2)} % `} <i class="icon icon-arrow-right"></i> 
+                        </div>
+                    
+                        <span style="margin-left: 5px">${this.style.caption ? this.style.caption : ''}</span>
+                    </div>` : '';
                     html = `<div class="cc-single-value"  style="${margin1};${'color: var(--darkfont);'}">
                         <div class="cc-single-value-item" style="${margin2}">
                         <span class="cc-single-value-item-title">${data.label}</span>
                         ${trend}
-                        <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
+                        <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${this.style.unit ? `<span style\="color: #AEB5C1">${this.style.unit}</span>` : ''} ${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
                         </div>
                     </div>`
                 }

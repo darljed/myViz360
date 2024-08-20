@@ -76,15 +76,27 @@ div.cc-single-value-item-icon.red i{
     color: #7C2F20
 }
 
-.cc-single-value-item-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+div.cc-single-value-item-icon{
     padding: 6px 15px;
     border-radius: 20px;
     background: #ededed;
     border: 1px solid #ced2cf;
     font-size: 12pt;
+}
+
+.cc-trend-holder {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.cc-trend-holder.borders {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E8EAED;
+    padding: 2px 6px 2px 2px;
+    border-radius: 20px;
+    top: 35px;
 }
 
 .cc-single-value-item-icon.green {
