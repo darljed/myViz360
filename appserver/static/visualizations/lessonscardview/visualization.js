@@ -281,7 +281,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 
 	                    // create dropdown
 	                    // // console.log(this.config)
-	                    self.dropdownlist = data[self.page].map(li=>{
+	                    self.dropdownlist = data[Number(self.page) - 1].map(li=>{
 	                      const dd = new DropdownView({
 	                        choices: self.config.statusList.map(e=>{
 	                          return { label: e, value: e}
