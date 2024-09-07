@@ -79,10 +79,13 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	            this.id = this.generateUniqueId()
 	            this.status_input_id = this.id + '_status'
 	            this.per_page = 2
-	            this.page = 0
-	            console.log(this.$el,this._config,this)
+	            this.page = 1
+	            this.pages = []
+
+	            const self = this
+	            // // console.log(this.$el,this._config,this)
 	            this.updateTimes = 0
-	            // //// console.log(this.$el)
+	            // //// // // console.log(this.$el)
 
 	            this.options = {
 	                theme: vizUtils.getCurrentTheme(),
@@ -148,7 +151,7 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	        // Optionally implement to format data returned from search. 
 	        // The returned object will be p`assed to updateView as 'data'
 	        formatData: function(data) {
-	            console.log(data)
+	            // // console.log(data)
 	            // Format data 
 
 	            const newData = data.rows.map((r,i)=>{
@@ -160,115 +163,162 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	                return row
 	            })
 	            
-	            let content_count = 0
-	            let newPaginatedData = []
-	            let pages = []
-	            newData.map((el)=>{
-	              content_count+=1
-
-	              pages.push(el)
-	              if(content_count == this.per_page){
-	                newPaginatedData.push(pages)
-	                content_count = 0
-	                pages = []
-	              }
-	            })
-	            return newPaginatedData
+	            return newData
 	        },
 	  
 	        // Implement updateView to render a visualization.
 	        //  'data' will be the data object returned from formatData or from the search
 	        //  'config' will be the configuration property object
-	        updateView: function(paginatedData , config) {
-	            console.log(paginatedData)
-	            let data = paginatedData[0]
+	        updateView: function(data , config) {
 	            // Draw something here
 	            const self = this
-	            console.log('editmode',config[this.getPropertyNamespaceInfo().propertyNamespace + 'editMode'])
-	            this.config.editMode = config[this.getPropertyNamespaceInfo().propertyNamespace + 'editMode'] == 'true' && true;
-	            this.config.statusList = (config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'] ? (config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'].split(',').length > 1 ? config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'].split(',') : false) : false ) || this.config.statusList;
-	            this.config.lookup = config[this.getPropertyNamespaceInfo().propertyNamespace + 'lookup'] || 'testlookup';
-	            this.config.field = config[this.getPropertyNamespaceInfo().propertyNamespace + 'field'] || 'status';
-	            this.config.spl =  config[this.getPropertyNamespaceInfo().propertyNamespace + 'spl'] || `| inputlookup {{lookup}}
-	            | eval key = _key
-	            | search key = "{{key}}"
-	            | eval "{{field}}" = "{{value}}"
-	            | outputlookup {{lookup}} append=true key_field=key
-	            `
+	            
+	            if(typeof(data) === 'object'){
+	              if(data !== undefined){
 
-	            const processSPL = function(lookup,key,field,value) {
-	              let newSPL = self.config.spl.replaceAll(`\{\{lookup\}\}`,`${lookup}`)
-	              newSPL = newSPL.replaceAll(`\{\{key\}\}`,`${key}`)
-	              newSPL = newSPL.replaceAll(`\{\{field\}\}`,`${field}`)
-	              newSPL = newSPL.replaceAll(`\{\{value\}\}`,`${value}`)
-	              return newSPL
+	                // // console.log('editmode',config[this.getPropertyNamespaceInfo().propertyNamespace + 'editMode'])
+	                this.config.editMode = config[this.getPropertyNamespaceInfo().propertyNamespace + 'editMode'] == 'true' && true;
+	                this.config.statusList = (config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'] ? (config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'].split(',').length > 1 ? config[this.getPropertyNamespaceInfo().propertyNamespace + 'statusList'].split(',') : false) : false ) || this.config.statusList;
+	                this.config.lookup = config[this.getPropertyNamespaceInfo().propertyNamespace + 'lookup'] || 'testlookup';
+	                this.config.field = config[this.getPropertyNamespaceInfo().propertyNamespace + 'field'] || 'status';
+	                this.config.card_page = Number(config[this.getPropertyNamespaceInfo().propertyNamespace + 'card_page']) || 20;
+	                this.config.spl =  config[this.getPropertyNamespaceInfo().propertyNamespace + 'spl'] || `| inputlookup {{lookup}}
+	                | eval key = _key
+	                | search key = "{{key}}"
+	                | eval "{{field}}" = "{{value}}"
+	                | outputlookup {{lookup}} append=true key_field=key
+	                `
+
+	                this.per_page = this.config.card_page
+
+
+	                // create paginated data
+
+	                let content_count = 0
+	                let newPaginatedData = []
+	                let pages = []
+	                data.map((el,idx)=>{
+	                  content_count++
+
+	                  pages = [...pages,el]
+	                  if(content_count == this.per_page || idx === data.length - 1){
+	                    newPaginatedData = [...newPaginatedData, pages]
+	                    content_count = 0
+	                    pages = []
+	                  }
+	                })
+	                // console.log('new paginated',newPaginatedData)
+	                data = [...newPaginatedData]
+
+
+	                const processSPL = function(lookup,key,field,value) {
+	                  let newSPL = self.config.spl.replaceAll(`\{\{lookup\}\}`,`${lookup}`)
+	                  newSPL = newSPL.replaceAll(`\{\{key\}\}`,`${key}`)
+	                  newSPL = newSPL.replaceAll(`\{\{field\}\}`,`${field}`)
+	                  newSPL = newSPL.replaceAll(`\{\{value\}\}`,`${value}`)
+	                  return newSPL
+	                }
+	                
+
+	                const statusCallback = function(value,key, input_id){
+	                  // create a search to save the updates
+	                  const spl = processSPL(self.config.lookup,key,self.config.field,value)
+	                  // // console.log(spl)
+
+	                  self.updateSearch = new SearchManager({
+	                    preview: false,
+	                    cache: false,
+	                    search: spl
+	                  });
+
+	                  self.updateSearch.on('search:done',function(e){
+	                    // // console.log(self.el)
+	                    if(e.content.resultCount == 0){
+	                      console.warn('No result returned. Please check the query')
+	                    }
+	                    else{
+	                      // // console.log('Status update complete!')
+	                      $(`#${input_id}_status`).html(self.getStatus(value))
+	                    }
+	                  })
+
+	                  self.updateSearch.on('search:failed',function(e){
+	                    if(e.content.resultCount == 0){
+	                      console.warn(`${e}, an error occured`)
+	                    }
+	                  })
+
+	                  self.updateSearch.on('search:error',function(e){
+	                    if(e.content.resultCount == 0){
+	                      console.warn(`${e}, an error occured`)
+	                    }
+	                  })
+	                  return null
+	                }
+
+	                function doRender(data){
+	                  if(data !== undefined && data!== null && data.length !== 0 ){
+
+	                    console.log('Data',data) 
+	                    console.log('page',self.page)
+	                    let count = 0
+	                    
+	                    let vizHTML =  data[Number(self.page) - 1].map((d,i)=>{
+	                        // console.log('iteration',i)
+	                        return self.template(d,i)
+	                    }).join('')
+	  
+	                    // create pagination
+	                    let pagination = data.map((p,i)=>self.paginationTemplate(i+1,self.page)).join('')
+	                    
+	                    self.$el.html(`
+	                    <div class="viz-card-view-main">${vizHTML}</div>
+	                    <div class="viz-card-view-pagination">
+	                      ${pagination}
+	                    </div>
+	                    `)
+
+
+	                    // create dropdown
+	                    // // console.log(this.config)
+	                    self.dropdownlist = data[self.page].map(li=>{
+	                      const dd = new DropdownView({
+	                        choices: self.config.statusList.map(e=>{
+	                          return { label: e, value: e}
+	                        }),
+	                        default: li.status ? li.status : undefined,
+	                        el: $(`#${li.input_id}`)
+	                      }).render();
+
+	                      dd.on('change',function(v){
+	                        statusCallback(v,li.key,li.input_id)
+	                      })
+
+	                      return dd
+	                    })
+
+	                    // console.log(self.dropdownlist)
+	                  }
+	                }
+	                doRender(data)
+
+
+	                
+
+
+
+	                this.$el.on('click','.viz-card-pagebtn',function(){
+	                  
+	                  self.page = Number($(this).data('page'))
+	                  // console.log(self.page)
+	                  doRender(data)
+	                })
+	                
+
+	                self.$el.closest('.ui-resizable').css('height','unset')
+
+	              }
 	            }
-	            
-
-	            const statusCallback = function(value,key, input_id){
-	              // create a search to save the updates
-	              const spl = processSPL(self.config.lookup,key,self.config.field,value)
-	              console.log(spl)
-
-	              self.updateSearch = new SearchManager({
-	                preview: false,
-	                cache: false,
-	                search: spl
-	              });
-
-	              self.updateSearch.on('search:done',function(e){
-	                console.log(self.el)
-	                if(e.content.resultCount == 0){
-	                  console.warn('No result returned. Please check the query')
-	                }
-	                else{
-	                  console.log('Status update complete!')
-	                  $(`#${input_id}_status`).html(self.getStatus(value))
-	                }
-	              })
-
-	              self.updateSearch.on('search:failed',function(e){
-	                if(e.content.resultCount == 0){
-	                  console.warn(`${e}, an error occured`)
-	                }
-	              })
-
-	              self.updateSearch.on('search:error',function(e){
-	                if(e.content.resultCount == 0){
-	                  console.warn(`${e}, an error occured`)
-	                }
-	              })
-	              return null
-	            }
-
-	            console.log(this.config)
-	            let vizHTML =  data.map((d,i)=>{
-	              return self.template(d,i)
-	            }).join('')
-	            
-	            self.$el.html(`<div class="viz-card-view-main">${vizHTML}</div>`)
-
-	            // create dropdown
-	            console.log(this.config)
-	            this.dropdownlist = data.map(li=>{
-	              const dd = new DropdownView({
-	                choices: this.config.statusList.map(e=>{
-	                  return { label: e, value: e}
-	                }),
-	                default: li.status ? li.status : undefined,
-	                el: $(`#${li.input_id}`)
-	              }).render();
-
-	              dd.on('change',function(v){
-	                statusCallback(v,li.key,li.input_id)
-	              })
-
-	              return dd
-	            })
-	            
-
-	            self.$el.closest('.ui-resizable').css('height','unset')
-
 	            // handlers 
 	            // const self = this
 	            // this.$el.on('click','.cc-single-value-item',function(e){
@@ -309,6 +359,11 @@ define(["api/SplunkVisualizationBase","api/SplunkVisualizationUtils","splunkjs/m
 	            }
 	        
 	            return `cardview_${uniqueId}`;
+	        },
+
+	        paginationTemplate(page, currentPage){
+	          // console.log('current page',page,currentPage)
+	          return `<button class="viz-card-pagebtn ${page === currentPage ? 'active' : ''}" data-page="${page}">${page}</button>`
 	        },
 
 	        template(data){

@@ -26,6 +26,7 @@ display.visualizations.custom.myViz360.lessonscardview.editMode = <string>
 display.visualizations.custom.myViz360.lessonscardview.statusList = <string>
 display.visualizations.custom.myViz360.lessonscardview.lookup = 
 display.visualizations.custom.myViz360.lessonscardview.field = 
+display.visualizations.custom.myViz360.lessonscardview.card_page = <integer>
 display.visualizations.custom.myViz360.lessonscardview.spl = | inputlookup {{lookup}}
             | eval key = _key
             | search key = "{{key}}"

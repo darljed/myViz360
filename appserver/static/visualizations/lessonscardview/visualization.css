@@ -174,3 +174,22 @@
 .viz-card-less-status-item svg {
   margin: 0 0 -2px 0px;
 }
+
+/* pagination  */
+button.viz-card-pagebtn {
+  background: #fff;
+  border: 2px solid #e8eaed;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+button.viz-card-pagebtn.active {
+  background: #e6e7e9;
+}
+
+.viz-card-view-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  padding: 10px 40px;
+  flex-wrap: wrap;
+}
