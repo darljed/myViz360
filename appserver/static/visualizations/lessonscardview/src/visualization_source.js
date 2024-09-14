@@ -360,6 +360,9 @@ define([
               </div>
             </div>
             <div class="viz-card-view-section">
+              <span class="inter-bold">Timestamp</span> ${data.timestamp || 'No timestamp found'}
+            </div>
+            <div class="viz-card-view-section">
               <div class="viz-card-profile-main">
                 <div class="viz-card-profile-item">
                   <div class="viz-card-profile-labelheader">
