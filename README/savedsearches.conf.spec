@@ -16,6 +16,7 @@ display.visualizations.custom.myViz360.singlevalue360.unit = <string>
 display.visualizations.custom.myViz360.singlevalue360.trendtype = <string>
 display.visualizations.custom.myViz360.singlevalue360.caption = <string>
 display.visualizations.custom.myViz360.singlevalue360.usetrend = <string>
+display.visualizations.custom.myViz360.singlevalue360.tooltip = <string>
 
 display.visualizations.custom.myViz360.singlevaluemini.versionStyle = <integer>
 display.visualizations.custom.myViz360.singlevaluemini.columnCount = <integer>

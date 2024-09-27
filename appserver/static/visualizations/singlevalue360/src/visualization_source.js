@@ -98,6 +98,7 @@ define([
                 usetrend: config[this.getPropertyNamespaceInfo().propertyNamespace + 'usetrend'] || 'True',
                 caption: config[this.getPropertyNamespaceInfo().propertyNamespace + 'caption'] || '',
                 trendtype: config[this.getPropertyNamespaceInfo().propertyNamespace + 'trendtype'] || 'Difference',
+                tooltip: config[this.getPropertyNamespaceInfo().propertyNamespace + 'tooltip'] || '',
             }
 
             let margin1,margin2;
@@ -125,7 +126,19 @@ define([
                     </div>` : '';
                     html = `<div class="cc-single-value"  style="${margin1};${'color: var(--darkfont);'}">
                         <div class="cc-single-value-item" style="${margin2}">
-                        <span class="cc-single-value-item-title">${data.label}</span>
+                        <span class="cc-single-value-item-title">
+                            ${data.label} 
+                            ${ this.style.tooltip !=="" ?
+                                `<span class="cc-single-value-item-title-tooltip">
+                                    <i class="icon icon-question-circle"></i>
+                                    <div class="cc-single-value-item-title-tooltip-description">
+                                        <p>${this.style.tooltip}</p>
+                                    </div>
+                                </span>` :
+                                ''
+                            }
+                            
+                        </span>
                         ${trend}
                         <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${this.style.unit ? `<span style\="color: #AEB5C1">${this.style.unit}</span>` : ''} ${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
                         </div>
@@ -142,7 +155,18 @@ define([
                         
                             <div class="cc-panel-single-value-v2-labels">
                                 <div class="cc-single-value-item">
-                                <span class="cc-single-value-item-title">${data.label}</span>
+                                    <span class="cc-single-value-item-title">
+                                        ${data.label}
+                                        ${ this.style.tooltip !=="" ?
+                                            `<span class="cc-single-value-item-title-tooltip">
+                                                <i class="icon icon-question-circle"></i>
+                                                <div class="cc-single-value-item-title-tooltip-description">
+                                                    <p>${this.style.tooltip}</p>
+                                                </div>
+                                            </span>` :
+                                            ''
+                                        }    
+                                    </span>
                                 <h2 class="cc-single-value-item-value" style="${'color: var(--darkfont);'}">${data.value} <i class="icon icon-info-circle" style="display: none;"></i></h2>
                                 </div>
                             </div>

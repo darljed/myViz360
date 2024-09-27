@@ -129,6 +129,10 @@ h2.cc-single-value-item-value {
     width: 100%;
 }
 
+.cc-panel-single-value-v2-labels{
+    flex: auto
+}
+
 .cc-panel-single-value-v2-labels .cc-single-value-item {
     padding: 12px 16px 0px 16px;
 }
@@ -144,3 +148,39 @@ h2.cc-single-value-item-value {
 }
 
 /* END of cc-single-value */
+
+
+/* tooltip  */
+span.cc-single-value-item-title-tooltip i {
+    font-size: 13pt;
+    display: inline-block;
+    color: #c6c6c6;
+}
+
+
+span.cc-single-value-item-title-tooltip:hover .cc-single-value-item-title-tooltip-description {
+    display: block;
+}
+
+.cc-single-value-item-title-tooltip-description {
+    position: absolute;
+    width: 80%;
+    background: #f6f6f6;
+    padding: 10px;
+    z-index: 9;
+    border-radius: 9px;
+    box-shadow: 0px 2px 6px #d2d2d2;
+    display: none;
+}
+
+
+.cc-single-value-item-title-tooltip-description p {
+    height: 3em; /* Set height to accommodate two rows */
+    overflow: hidden; /* Hide overflow content */
+    display: -webkit-box; /* Use flexbox for truncation */
+    -webkit-box-orient: vertical; /* Set the box orientation */
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    line-height: 1.5em; /* Set line height */
+    margin: 0; /* Remove margin from paragraph */
+}
